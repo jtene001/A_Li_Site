@@ -101,3 +101,117 @@ plot(gissmonths,gissmo,type="l",main="GISS Monthly Temperature Series 1959-2017"
 ```
 
 ### Scatterplots of carbon dioxide concentration vs. surface temperature
+
+Scatterplots are different from the time series above. Here we will take each pair of measurements taken at the same time and will plot carbon dioxide concentration against surface temperature. We are looking to see if there is a linear relationship between the two numbers (in other words, we are looking to see if surface temperature increases when carbon dioxide concentration increases.) In both cases, we can see that there is a very strong linear relationship between the two variables.
+
+
+```{r echo=FALSE}
+mlann<-as.numeric(ml.ts)
+mlmon<-as.numeric(mlmo.ts)
+gissann<-as.numeric(gissdata1[1:length(gissyears),14])
+gissmo<-as.numeric(gissmo)
+#length(mlann);length(mlmon)
+#length(gissann);length(gissmo)
+```
+
+
+
+
+```{r echo=FALSE}
+plot(mlann,gissann,main="CO2 vs. Temp Annual 1959-2017",
+     xlab="CO2 Annual Mauna Loa",ylab="GISS Annual Surface Temp Anomaly")
+```
+
+```{r  echo=FALSE}
+plot(mlmon,gissmo,main="CO2 vs. Temp Monthly 1959-2017",
+     xlab="CO2 Monthly Mauna Loa",ylab="GISS Monthly Surface Temp Anomaly")
+```
+
+
+### Various correlation coefficients
+
+Pearson's correlation coefficient:
+
+
+\[\rho_{x,y}=\frac{\sigma_{xy}}{\sigma_x \sigma_y}=\frac{E[(X-\mu_x)(Y-\mu_y)]}{\sigma_x \sigma_y}\]
+
+\[r_{xy}=\frac{\sum_{i=1}^n (x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum_{i=1}^n (x_i-\bar{x})^2\sum_{i=1}^n (y_i-\bar{y})^2}}\]
+
+Some say that Pearson's correlation coefficient requires the data to be normal. Others say it is not required but if the data is bivariate normal, "Pearson's correlation provides a complete description of the association."\\
+
+
+Spearman's Rho is Pearson's r computed on ranks and average ranks:
+
+\[\rho = \frac{\sum_{i=1}^n R(X_i)R(Y_i)-n(\frac{n+1}{2})^2}{(\sum_{i=1}^n R(X_i)^2-n(\frac{n+1}{2})^2)^{\frac{1}{2}} (\sum_{i=1}^n R(Y_i)^2-n(\frac{n+1}{2})^2)^{\frac{1}{2}}}   \]
+
+Kendall's Tau is another measure of rank correlation. We are given a bivariate sample of size $n$ in the form of $(x_i,y_i)$ for $i=1,2,\dots,n$. We compare each pair of observations, i.e., $\binom{n}{2}$ pairs of observations. We determine whether each pair is discordant or concordant, where concordant means that the two numbers in one member of the pair differ in the same direction from the two numbers in the other member of the pair. Discordant is the reverse. If there are no ties, Kendall's Tau is then:
+
+
+\[\tau = \frac{N_c-N_d}{n(n-1)/2}  \]
+
+where $N_c$ is the number of concordant pairs and $N_d$ is the number of discordant pairs. If there are ties, we use:
+
+\[\tau = \frac{N_c-N_d}{N_c+N_d}  \]
+
+where we consider only pairs where $x_i \neq x_j$.
+
+### Correlation coefficients CO$_2$ to Surface Temperature 1959-2017
+
+We can calculate the Pearson, Spearman and Kendall correlation coefficients comparing the Mauna Loa carbon dioxide data to the GISS surface temperature data. All of the coefficients are in excess of 0.69. This is generally considered to be strong correlation.
+
+```{r echo=FALSE}
+Pearson<- c(cor(mlann,gissann,method="pearson"),cor(mlmon,gissmo,method="pearson"))
+Spearman <- c(cor(mlann,gissann,method="spearman"),cor(mlmon,gissmo,method="spearman"))
+Kendall <- c(cor(mlann,gissann,method="kendall"),cor(mlmon,gissmo,method="kendall"))
+y <- data.frame(Pearson,Spearman,Kendall,row.names = c("Annual Data","Monthly Data"))
+knitr::kable(y,digits = 3)
+```
+
+
+
+
+
+
+```{r echo=FALSE,results='hide'}
+cor(mlann,gissann,method="pearson");cor(mlann,gissann,method="spearman");cor(mlann,gissann,method="kendall")
+cor(mlmon,gissmo,method="pearson");cor(mlmon,gissmo,method="spearman");cor(mlmon,gissmo,method="kendall")
+```
+
+```{r echo=FALSE,results='hide'}
+shapiro.test(mlann)
+shapiro.test(gissann)
+shapiro.test(mlmon)
+shapiro.test(gissmo)
+```
+
+### Can we predict surface temperature increases </br>from anticipated carbon dioxide increases?
+
+```{r echo=FALSE}
+lm1 <- lm(gissann~mlann)
+plot(mlann,gissann,main="CO2 vs. Temp Annual 1959-2017",
+     xlab="CO2 Annual Mauna Loa",ylab="GISS Annual Surface Temp Anomaly")
+lines(mlann,lm1$fitted,type = "l",col="red")
+```
+
+```{r}
+#Properties of the regression line (the red trend line above)
+summary(lm1)
+```
+
+```{r}
+#Predictions for CO2 concentrations of 425 to 700, increments of 25
+new <- data.frame(mlann = seq(425,700,by=25))
+predictions <- predict(lm1,newdata=new,interval="prediction")
+round(predictions,2)
+```
+```{r}
+#plot(c(mlann,seq(425,700,25)),c(gissann,predictions[,1]),
+plot(mlann,gissann,
+     main="CO2 vs. Temp Annual 1959-2017 PLUS predictions",
+     xlab="CO2 Annual Mauna Loa",ylab="GISS Annual Surface Temp Anomaly",
+     xlim=c(300,700),ylim=c(-.5,4))
+points(seq(425,700,25),predictions[,1],col="blue")
+lines(seq(425,700,25),predictions[,2],type="l",col="red")
+lines(seq(425,700,25),predictions[,3],type="l",col="red")
+```
+
