@@ -24,3 +24,80 @@ Our process will consist of two phases: First, we will perform an exploratory re
 
 ### Exploratory review of the time series and their relationship
 
+Generally, we will first look to graphical representations of the data pairs to see if the two variables pair more or less in one of the ways described above (large with large or large with small). Side-by-side time series can reveal similar patterns over time. In addition, scatterplots of the data pairs can reveal the correlation relationship.
+
+Our first step is to explore the data series. The first thing we can do is to look at a chart of the annual $CO_2$ data next to the annual temperature data and the monthly $CO_2$ data next to the monthly temperature data.
+
+First, we look at the annual data. We can see that both of the series show a relatively steady increase over time. The carbon dioxide series is much smoother, though both are increasing in roughly similar fashion on average over time.
+
+```{r echo=FALSE}
+genlocn<-"https://data.giss.nasa.gov/gistemp/"
+filename<-"tabledata_v3/GLB.Ts+dSST.csv"
+#Download data to file in working directory
+#Then create data frame in R
+url1 <- paste(genlocn,filename,sep="")
+download.file(url1, "gissdata.csv" )
+gissdata.df<-read.csv("gissdata.csv",header=TRUE,skip=1)
+#For some reason, the columns read in as factors in R
+#must convert to numeric values - convert to a matrix
+gissdata<-as.matrix(gissdata.df)
+gissdata1<-as.matrix(gissdata.df[80:139,])
+#head(gissdata)
+#head(gissdata1,n=5)
+#create time sequences in POSIXct, using:
+#ISOdatetime(year, month, day, hour, min, sec, tz = "")
+#ISOdate(year, month, day, hour = 12, min = 0, sec = 0, tz = "GMT")
+#Need to modify to current dates
+gissyears<-seq(ISOdate(1959,1,1),ISOdate(2017,1,1),by="years")
+gissmonths<-seq(ISOdate(1959,1,1),ISOdate(2017,12,1),by="month")
+```
+
+```{r echo=FALSE}
+setwd("/Users/jtene/Dropbox/!!!Correlation")
+ml<-scan(file="ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_annmean_mlo.txt",
+         skip=57)
+ml<-matrix(ml,byrow=TRUE,ncol=3)
+co2<-ml[,2]
+ml.ts<-ts(ml[,2],start=1959,frequency=1)
+plot.ts(ml.ts,type="l",main="Mauna Loa Annual CO2 Series 1959-2017",
+        ylab="CO2 level in ppm",xlab="Year")
+points(ml.ts,pch=16,col="blue",cex=.7)
+```
+
+
+
+```{r echo=FALSE}
+plot(gissyears,gissdata1[1:length(gissyears),14],type="l",main="GISS Annual Temperature Series 1959-2017",
+     xlab="",ylab="Anomaly (base period 1951-1980)")
+points(gissyears,gissdata1[1:length(gissyears),14],col="blue",cex=.9,pch=20)
+```
+
+
+Then we can look at the two monthly series. Obviously, monthly series are more jagged than annual. We can see that the monthly carbon dioxide series reveals a seasonal fluctuation that reflects higher concentrations during northern hemisphere winters. Nevertheless, both series still reflect the same general ascending pattern.
+
+```{r echo=FALSE}
+mlmo<-scan(file="ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_mm_mlo.txt",
+         skip=82)
+mlmo<-matrix(mlmo,byrow=TRUE,ncol=7)
+mlmo.ts<-ts(mlmo[1:708,5],start=1959,frequency=12)
+months<-seq(ISOdate(1959,1,1),ISOdate(2017,12,1),by="month")
+plot(months,mlmo.ts,type="l",main="Mauna Loa Monthly CO2 Series 1959-2017", 
+     ylab="CO2 level in ppm", xlab="Time")
+points(months,mlmo.ts,pch=16,col="blue",cex=.2)
+#The following is a quadratic regression for ML monthly
+#time2 <- time^2
+#quadratic_model <- lm(mlmo.ts~time+time2)
+#summary(quadratic_model)
+#lines(time,quadratic_model$fitted.values,col="red")
+```
+
+
+```{r echo=FALSE}
+gissmo<-gissdata1[1,2:13]
+for (i in 2:length(gissyears)){gissmo<-c(gissmo,gissdata1[i,2:13])}
+
+plot(gissmonths,gissmo,type="l",main="GISS Monthly Temperature Series 1959-2017",
+     xlab="",ylab="Anomaly (base period 1951-1980)")
+```
+
+### Scatterplots of carbon dioxide concentration vs. surface temperature
