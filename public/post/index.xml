@@ -6,10 +6,20 @@
     <description>Recent content in Posts on A Hugo website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 25 Jul 2017 21:49:57 -0700</lastBuildDate>
+    <lastBuildDate>Wed, 31 Oct 2018 21:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Are carbon dioxide concentrations and global surface temperatures correlated?</title>
+      <link>/2018/10/31/are-carbon-dioxide-concentrations-and-global-surface-temperatures-correlated/</link>
+      <pubDate>Wed, 31 Oct 2018 21:13:14 -0500</pubDate>
+      
+      <guid>/2018/10/31/are-carbon-dioxide-concentrations-and-global-surface-temperatures-correlated/</guid>
+      <description>Measures of correlation and procedures for exploring correlationA measure of correlation is a numerical measure of the relationship between 2 variables (X and Y), where the measurements are taken in pairs - one measurement for each variable. By convention, such measures are crafted so that they meet the following requirements:
+They lie between \(-1\) and \(1\);If larger values of X tend to group with larger values of Y and vice versa, the measure will be positive.</description>
+    </item>
     
     <item>
       <title>Using Plain Markdown instead of R Markdown</title>
@@ -40,16 +50,6 @@ summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 2
       <guid>/2017/07/21/lorem-ipsum---classic-nonsense-filler-text/</guid>
       <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 WTF is Lorem Ipsum?</description>
-    </item>
-    
-    <item>
-      <title>Are carbon dioxide concentrations and global surface temperatures correlated?</title>
-      <link>/1/01/01/are-carbon-dioxide-concentrations-and-global-surface-temperatures-correlated/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/are-carbon-dioxide-concentrations-and-global-surface-temperatures-correlated/</guid>
-      <description>Measures of correlation and procedures for exploring correlationA measure of correlation is a numerical measure of the relationship between 2 variables (X and Y), where the measurements are taken in pairs - one measurement for each variable. By convention, such measures are crafted so that they meet the following requirements:
-They lie between \(-1\) and \(1\);If larger values of X tend to group with larger values of Y and vice versa, the measure will be positive.</description>
     </item>
     
   </channel>
