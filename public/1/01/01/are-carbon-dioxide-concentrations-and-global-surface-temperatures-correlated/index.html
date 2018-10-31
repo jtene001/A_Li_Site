@@ -19,6 +19,11 @@
 
 
 
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
 <link rel="stylesheet" href="/css/fonts.css" media="all">
 <link rel="stylesheet" href="/css/main.css" media="all">
 
@@ -54,7 +59,7 @@
 
   <article class="article">
     
-    <span class="article-duration">2 min read</span>
+    <span class="article-duration">5 min read</span>
     
 
     <h1 class="article-title">Are carbon dioxide concentrations and global surface temperatures correlated?</h1>
@@ -88,6 +93,101 @@
 </div>
 <div id="scatterplots-of-carbon-dioxide-concentration-vs.surface-temperature" class="section level3">
 <h3>Scatterplots of carbon dioxide concentration vs. surface temperature</h3>
+<p>Scatterplots are different from the time series above. Here we will take each pair of measurements taken at the same time and will plot carbon dioxide concentration against surface temperature. We are looking to see if there is a linear relationship between the two numbers (in other words, we are looking to see if surface temperature increases when carbon dioxide concentration increases.) In both cases, we can see that there is a very strong linear relationship between the two variables.</p>
+<p><img src="/post/2018-10-31-correlation-co2-and-temp_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="/post/2018-10-31-correlation-co2-and-temp_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="various-correlation-coefficients" class="section level3">
+<h3>Various correlation coefficients</h3>
+<p>Pearson’s correlation coefficient:</p>
+<p><span class="math display">\[\rho_{x,y}=\frac{\sigma_{xy}}{\sigma_x \sigma_y}=\frac{E[(X-\mu_x)(Y-\mu_y)]}{\sigma_x \sigma_y}\]</span></p>
+<p><span class="math display">\[r_{xy}=\frac{\sum_{i=1}^n (x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum_{i=1}^n (x_i-\bar{x})^2\sum_{i=1}^n (y_i-\bar{y})^2}}\]</span></p>
+<p>Some say that Pearson’s correlation coefficient requires the data to be normal. Others say it is not required but if the data is bivariate normal, “Pearson’s correlation provides a complete description of the association.”\</p>
+<p>Spearman’s Rho is Pearson’s r computed on ranks and average ranks:</p>
+<p><span class="math display">\[\rho = \frac{\sum_{i=1}^n R(X_i)R(Y_i)-n(\frac{n+1}{2})^2}{(\sum_{i=1}^n R(X_i)^2-n(\frac{n+1}{2})^2)^{\frac{1}{2}} (\sum_{i=1}^n R(Y_i)^2-n(\frac{n+1}{2})^2)^{\frac{1}{2}}}   \]</span></p>
+<p>Kendall’s Tau is another measure of rank correlation. We are given a bivariate sample of size <span class="math inline">\(n\)</span> in the form of <span class="math inline">\((x_i,y_i)\)</span> for <span class="math inline">\(i=1,2,\dots,n\)</span>. We compare each pair of observations, i.e., <span class="math inline">\(\binom{n}{2}\)</span> pairs of observations. We determine whether each pair is discordant or concordant, where concordant means that the two numbers in one member of the pair differ in the same direction from the two numbers in the other member of the pair. Discordant is the reverse. If there are no ties, Kendall’s Tau is then:</p>
+<p><span class="math display">\[\tau = \frac{N_c-N_d}{n(n-1)/2}  \]</span></p>
+<p>where <span class="math inline">\(N_c\)</span> is the number of concordant pairs and <span class="math inline">\(N_d\)</span> is the number of discordant pairs. If there are ties, we use:</p>
+<p><span class="math display">\[\tau = \frac{N_c-N_d}{N_c+N_d}  \]</span></p>
+<p>where we consider only pairs where <span class="math inline">\(x_i \neq x_j\)</span>.</p>
+</div>
+<div id="correlation-coefficients-co_2-to-surface-temperature-1959-2017" class="section level3">
+<h3>Correlation coefficients CO<span class="math inline">\(_2\)</span> to Surface Temperature 1959-2017</h3>
+<p>We can calculate the Pearson, Spearman and Kendall correlation coefficients comparing the Mauna Loa carbon dioxide data to the GISS surface temperature data. All of the coefficients are in excess of 0.69. This is generally considered to be strong correlation.</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">Pearson</th>
+<th align="right">Spearman</th>
+<th align="right">Kendall</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Annual Data</td>
+<td align="right">0.949</td>
+<td align="right">0.933</td>
+<td align="right">0.779</td>
+</tr>
+<tr class="even">
+<td>Monthly Data</td>
+<td align="right">0.890</td>
+<td align="right">0.889</td>
+<td align="right">0.695</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="can-we-predict-surface-temperature-increases-from-anticipated-carbon-dioxide-increases" class="section level3">
+<h3>Can we predict surface temperature increases </br>from anticipated carbon dioxide increases?</h3>
+<p><img src="/post/2018-10-31-correlation-co2-and-temp_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<pre class="r"><code>#Properties of the regression line (the red trend line above)
+summary(lm1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = gissann ~ mlann)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.200323 -0.066929  0.005492  0.071795  0.171007 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -3.3457158  0.1621733  -20.63   &lt;2e-16 ***
+## mlann        0.0103483  0.0004575   22.62   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.09359 on 57 degrees of freedom
+## Multiple R-squared:  0.8998, Adjusted R-squared:  0.898 
+## F-statistic: 511.6 on 1 and 57 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>#Predictions for CO2 concentrations of 425 to 700, increments of 25
+new &lt;- data.frame(mlann = seq(425,700,by=25))
+predictions &lt;- predict(lm1,newdata=new,interval=&quot;prediction&quot;)
+round(predictions,2)</code></pre>
+<pre><code>##     fit  lwr  upr
+## 1  1.05 0.85 1.25
+## 2  1.31 1.10 1.52
+## 3  1.57 1.35 1.79
+## 4  1.83 1.60 2.06
+## 5  2.09 1.84 2.33
+## 6  2.35 2.08 2.61
+## 7  2.60 2.33 2.88
+## 8  2.86 2.57 3.16
+## 9  3.12 2.81 3.43
+## 10 3.38 3.05 3.71
+## 11 3.64 3.29 3.99
+## 12 3.90 3.53 4.27</code></pre>
+<pre class="r"><code>#plot(c(mlann,seq(425,700,25)),c(gissann,predictions[,1]),
+plot(mlann,gissann,
+     main=&quot;CO2 vs. Temp Annual 1959-2017 PLUS predictions&quot;,
+     xlab=&quot;CO2 Annual Mauna Loa&quot;,ylab=&quot;GISS Annual Surface Temp Anomaly&quot;,
+     xlim=c(300,700),ylim=c(-.5,4))
+points(seq(425,700,25),predictions[,1],col=&quot;blue&quot;)
+lines(seq(425,700,25),predictions[,2],type=&quot;l&quot;,col=&quot;red&quot;)
+lines(seq(425,700,25),predictions[,3],type=&quot;l&quot;,col=&quot;red&quot;)</code></pre>
+<p><img src="/post/2018-10-31-correlation-co2-and-temp_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
 
     </div>
@@ -111,6 +211,18 @@
 
     </div>
     
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
 
     
 <script src="/js/math-code.js"></script>
