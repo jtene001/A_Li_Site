@@ -3,8 +3,8 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/2018/10/31/are-carbon-dioxide-concentrations-and-global-surface-temperatures-correlated/</loc>
-    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
+    <loc>/2018/11/01/are-carbon-dioxide-concentrations-and-global-surface-temperatures-correlated/</loc>
+    <lastmod>2018-11-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -28,12 +28,6 @@
   </url>
   
   <url>
-    <loc>/</loc>
-    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/categories/blogdown/</loc>
     <lastmod>2017-07-25T21:49:57-07:00</lastmod>
     <priority>0</priority>
@@ -42,6 +36,12 @@
   <url>
     <loc>/categories/</loc>
     <lastmod>2017-07-25T21:49:57-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2018-11-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -59,7 +59,7 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

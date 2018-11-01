@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on A Hugo website</title>
+    <title>Posts on Frog in a Pot Blog</title>
     <link>/post/</link>
-    <description>Recent content in Posts on A Hugo website</description>
+    <description>Recent content in Posts on Frog in a Pot Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 31 Oct 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 01 Nov 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Are carbon dioxide concentrations and global surface temperatures correlated?</title>
-      <link>/2018/10/31/are-carbon-dioxide-concentrations-and-global-surface-temperatures-correlated/</link>
-      <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
+      <link>/2018/11/01/are-carbon-dioxide-concentrations-and-global-surface-temperatures-correlated/</link>
+      <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/31/are-carbon-dioxide-concentrations-and-global-surface-temperatures-correlated/</guid>
-      <description>Measures of correlation and procedures for exploring correlationA measure of correlation is a numerical measure of the relationship between 2 variables (X and Y), where the measurements are taken in pairs - one measurement for each variable. By convention, such measures are crafted so that they meet the following requirements:
+      <guid>/2018/11/01/are-carbon-dioxide-concentrations-and-global-surface-temperatures-correlated/</guid>
+      <description>What is correlation and how do we measure it?A measure of correlation is a numerical measure of the relationship between 2 variables (X and Y), where the measurements are taken in pairs - one measurement for each variable. By convention, such measures are crafted so that they meet the following requirements:
 They lie between \(-1\) and \(1\);If larger values of X tend to group with larger values of Y and vice versa, the measure will be positive.</description>
     </item>
     
