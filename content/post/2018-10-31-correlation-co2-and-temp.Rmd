@@ -11,8 +11,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 ### Measures of correlation and procedures for exploring correlation
 
-extra line
-
 A measure of correlation is a numerical measure of the relationship between 2 variables (X and Y), where the measurements are taken in pairs - one measurement for each variable. By convention, such measures are crafted so that they meet the following requirements:
  
 
