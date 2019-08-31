@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Frog in a Pot Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 01 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 Aug 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>New post test 1 - August 30, 2019</title>
+      <link>/2019/08/30/new-post-test-1-august-30-2019/</link>
+      <pubDate>Fri, 30 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/08/30/new-post-test-1-august-30-2019/</guid>
+      <description>So this will be a test document. I want to test whether I can (1) create a new post, and (2) post it into the blog easily. Then I want to see if I can (3) edit the post subsequent to the initial posting or (4) remove it.</description>
+    </item>
     
     <item>
       <title>Are carbon dioxide concentrations and global surface temperatures correlated?</title>
@@ -17,8 +26,8 @@
       <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/11/01/are-carbon-dioxide-concentrations-and-global-surface-temperatures-correlated/</guid>
-      <description>What is correlation and how do we measure it?A measure of correlation is a numerical measure of the relationship between 2 variables (X and Y), where the measurements are taken in pairs - one measurement for each variable. By convention, such measures are crafted so that they meet the following requirements:
-They lie between \(-1\) and \(1\);If larger values of X tend to group with larger values of Y and vice versa, the measure will be positive.</description>
+      <description>One of the claims often made by those who would deny climate change is that changes in global temperature are not related to changes in levels of carbon dioxide. While we often see graphs showing changes in temperature over time, or changes in carbon dioxide levels over time, we seldom if ever see analyses of the relationship between carbon dioxide levels and temperature, taking time out of the mix.
+In this post, I’m going to try to show how temperature and carbon dioxide are correlated, ignoring time.</description>
     </item>
     
     <item>

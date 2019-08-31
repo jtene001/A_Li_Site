@@ -1,0 +1,11 @@
+---
+title: New post test 1 - August 30, 2019
+author: jbtg
+date: '2019-08-30'
+slug: new-post-test-1-august-30-2019
+categories: []
+tags: []
+---
+
+
+So this will be a test document. I want to test whether I can (1) create a new post, and (2) post it into the blog easily. Then I want to see if I can (3) edit the post subsequent to the initial posting or (4) remove it.

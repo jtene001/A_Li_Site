@@ -9,7 +9,17 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 100) # Suppresses annoying tibble wrapping halfway through a line
+```
+
+One of the claims often made by those who would deny climate change is that changes in global temperature are not related to changes in levels of carbon dioxide. While we often see graphs showing changes in temperature over time, or changes in carbon dioxide levels over time, we seldom if ever see analyses of the relationship between carbon dioxide levels and temperature, taking time out of the mix.
+
+In this post, I'm going to try to show how temperature and carbon dioxide are correlated, ignoring time.
+ 
 ### What is correlation and how do we measure it?
+
+In its broadest sense, correlation is a relationship or a connection between two or more things. In a statistical sense, we try to find out to what extent two or more quantities change together.
 
 A measure of correlation is a numerical measure of the relationship between 2 variables (X and Y), where the measurements are taken in pairs - one measurement for each variable. By convention, such measures are crafted so that they meet the following requirements:
  
@@ -19,7 +29,26 @@ A measure of correlation is a numerical measure of the relationship between 2 va
 * The stronger the tendency to group large with large and small with small, the closer the measure will be to $1$; and 
 * The stronger the tendency to group large with small, the closer the measure will be to $-1$.
 
-Our process will consist of two phases: First, we will perform an exploratory review of the data to see if possible correlation surfaces. Second, we will calculate various the various correlation measures and see if they indicate correlation.
+Our process will consist of two phases: First, we will perform an exploratory review of the data to see if possible correlation surfaces. Second, we will calculate various correlation measures and see if they indicate correlation.
+
+```{r echo=FALSE}
+genlocn<-"https://data.giss.nasa.gov/gistemp/"
+filename<-"tabledata_v3/GLB.Ts+dSST.csv"
+
+url1 <- paste(genlocn,filename,sep="")
+download.file(url1, "gissdata.csv" )
+gissdata.df<-read.csv("gissdata.csv",header=TRUE,skip=1)
+gissdata<-as.matrix(gissdata.df)
+dim(gissdata)
+gissdata1<-as.matrix(gissdata.df[80:139,])
+dim(gissdata1)
+head(gissdata1)
+tail(gissdata1)
+gissyears<-seq(ISOdate(1959,1,1),ISOdate(2018,1,1),by="years")
+gissmonths<-seq(ISOdate(1959,1,1),ISOdate(2018,12,1),by="month")
+length(gissyears)
+```
+
 
 
 ### Exploratory review of the time series and their relationship
@@ -31,64 +60,39 @@ Our first step is to explore the data series. The first thing we can do is to lo
 First, we look at the annual data. We can see that both of the series show a relatively steady increase over time. The carbon dioxide series is much smoother, though both are increasing in roughly similar fashion on average over time.
 
 ```{r echo=FALSE}
-genlocn<-"https://data.giss.nasa.gov/gistemp/"
-filename<-"tabledata_v3/GLB.Ts+dSST.csv"
-#Download data to file in working directory
-#Then create data frame in R
-url1 <- paste(genlocn,filename,sep="")
-download.file(url1, "gissdata.csv" )
-gissdata.df<-read.csv("gissdata.csv",header=TRUE,skip=1)
-#For some reason, the columns read in as factors in R
-#must convert to numeric values - convert to a matrix
-gissdata<-as.matrix(gissdata.df)
-gissdata1<-as.matrix(gissdata.df[80:139,])
-#head(gissdata)
-#head(gissdata1,n=5)
-#create time sequences in POSIXct, using:
-#ISOdatetime(year, month, day, hour, min, sec, tz = "")
-#ISOdate(year, month, day, hour = 12, min = 0, sec = 0, tz = "GMT")
-#Need to modify to current dates
-gissyears<-seq(ISOdate(1959,1,1),ISOdate(2017,1,1),by="years")
-gissmonths<-seq(ISOdate(1959,1,1),ISOdate(2017,12,1),by="month")
-```
-
-```{r echo=FALSE}
-setwd("/Users/jtene/Dropbox/!!!Correlation")
 ml<-scan(file="ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_annmean_mlo.txt",
          skip=57)
 ml<-matrix(ml,byrow=TRUE,ncol=3)
 co2<-ml[,2]
 ml.ts<-ts(ml[,2],start=1959,frequency=1)
-plot.ts(ml.ts,type="l",main="Mauna Loa Annual CO2 Series 1959-2017",
+
+plot.ts(ml.ts,type="l",main="Mauna Loa Annual CO2 Series 1959-2018",
         ylab="CO2 level in ppm",xlab="Year")
 points(ml.ts,pch=16,col="blue",cex=.7)
 ```
 
 
-
 ```{r echo=FALSE}
-plot(gissyears,gissdata1[1:length(gissyears),14],type="l",main="GISS Annual Temperature Series 1959-2017",
+plot(gissyears,gissdata1[1:length(gissyears),14],type="l",main="GISS Annual Temperature Series 1959-2018",
      xlab="",ylab="Anomaly (base period 1951-1980)")
 points(gissyears,gissdata1[1:length(gissyears),14],col="blue",cex=.9,pch=20)
 ```
+
+
+
 
 
 Then we can look at the two monthly series. Obviously, monthly series are more jagged than annual. We can see that the monthly carbon dioxide series reveals a seasonal fluctuation that reflects higher concentrations during northern hemisphere winters. Nevertheless, both series still reflect the same general ascending pattern.
 
 ```{r echo=FALSE}
 mlmo<-scan(file="ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_mm_mlo.txt",
-         skip=82)
+           skip=82)
 mlmo<-matrix(mlmo,byrow=TRUE,ncol=7)
-mlmo.ts<-ts(mlmo[1:708,5],start=1959,frequency=12)
-months<-seq(ISOdate(1959,1,1),ISOdate(2017,12,1),by="month")
-plot(months,mlmo.ts,type="l",main="Mauna Loa Monthly CO2 Series 1959-2017", 
-     ylab="CO2 level in ppm", xlab="Time")
+mlmo.ts<-ts(mlmo[1:720,5],start=1959,frequency=12)
+months<-seq(ISOdate(1959,1,1),ISOdate(2018,12,1),by="month")
+plot(months,mlmo.ts,type="l",main="Mauna Loa Monthly CO2 Series 1959-2018", 
+     ylab="CO2 level in ppm", xlab="Year")
 points(months,mlmo.ts,pch=16,col="blue",cex=.2)
-#The following is a quadratic regression for ML monthly
-#time2 <- time^2
-#quadratic_model <- lm(mlmo.ts~time+time2)
-#summary(quadratic_model)
-#lines(time,quadratic_model$fitted.values,col="red")
 ```
 
 
@@ -96,36 +100,40 @@ points(months,mlmo.ts,pch=16,col="blue",cex=.2)
 gissmo<-gissdata1[1,2:13]
 for (i in 2:length(gissyears)){gissmo<-c(gissmo,gissdata1[i,2:13])}
 
-plot(gissmonths,gissmo,type="l",main="GISS Monthly Temperature Series 1959-2017",
+plot(gissmonths,gissmo,type="l",main="GISS Monthly Temperature Series 1959-2018",
      xlab="",ylab="Anomaly (base period 1951-1980)")
 ```
+
 
 ### Scatterplots of carbon dioxide concentration vs. surface temperature
 
 Scatterplots are different from the time series above. Here we will take each pair of measurements taken at the same time and will plot carbon dioxide concentration against surface temperature. We are looking to see if there is a linear relationship between the two numbers (in other words, we are looking to see if surface temperature increases when carbon dioxide concentration increases.) In both cases, we can see that there is a very strong linear relationship between the two variables.
-
 
 ```{r echo=FALSE}
 mlann<-as.numeric(ml.ts)
 mlmon<-as.numeric(mlmo.ts)
 gissann<-as.numeric(gissdata1[1:length(gissyears),14])
 gissmo<-as.numeric(gissmo)
-#length(mlann);length(mlmon)
-#length(gissann);length(gissmo)
+
 ```
-
-
-
 
 ```{r echo=FALSE}
 plot(mlann,gissann,main="CO2 vs. Temp Annual 1959-2017",
      xlab="CO2 Annual Mauna Loa",ylab="GISS Annual Surface Temp Anomaly")
 ```
 
+
+
+
+
 ```{r  echo=FALSE}
 plot(mlmon,gissmo,main="CO2 vs. Temp Monthly 1959-2017",
      xlab="CO2 Monthly Mauna Loa",ylab="GISS Monthly Surface Temp Anomaly")
 ```
+
+
+
+
 
 
 ### Various correlation coefficients
@@ -138,6 +146,15 @@ Pearson's correlation coefficient:
 \[r_{xy}=\frac{\sum_{i=1}^n (x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum_{i=1}^n (x_i-\bar{x})^2\sum_{i=1}^n (y_i-\bar{y})^2}}\]
 
 Some say that Pearson's correlation coefficient requires the data to be normal. Others say it is not required but if the data is bivariate normal, "Pearson's correlation provides a complete description of the association."\\
+
+```{r}
+library(ggpubr)
+shapiro.test(mlann);shapiro.test(gissann)
+ggqqplot(mlann);ggqqplot(gissann)
+shapiro.test(mlmon);shapiro.test(gissmo)
+ggqqplot(mlmon);ggqqplot(gissmo)
+```
+
 
 
 Spearman's Rho is Pearson's r computed on ranks and average ranks:
@@ -157,7 +174,7 @@ where we consider only pairs where $x_i \neq x_j$.
 
 ### Correlation coefficients CO$_2$ to Surface Temperature 1959-2017
 
-We can calculate the Pearson, Spearman and Kendall correlation coefficients comparing the Mauna Loa carbon dioxide data to the GISS surface temperature data. All of the coefficients are in excess of 0.69. This is generally considered to be strong correlation.
+We can calculate the Pearson, Spearman and Kendall correlation coefficients comparing the Mauna Loa carbon dioxide data to the GISS surface temperature data. All of the coefficients are in excess of 0.7. This is generally considered to be strong correlation.
 
 ```{r echo=FALSE}
 Pearson<- c(cor(mlann,gissann,method="pearson"),cor(mlmon,gissmo,method="pearson"))
@@ -167,28 +184,25 @@ y <- data.frame(Pearson,Spearman,Kendall,row.names = c("Annual Data","Monthly Da
 knitr::kable(y,digits = 3)
 ```
 
-
-
-
-
-
-```{r echo=FALSE,results='hide'}
+```{r}
 cor(mlann,gissann,method="pearson");cor(mlann,gissann,method="spearman");cor(mlann,gissann,method="kendall")
 cor(mlmon,gissmo,method="pearson");cor(mlmon,gissmo,method="spearman");cor(mlmon,gissmo,method="kendall")
 ```
 
-```{r echo=FALSE,results='hide'}
+```{r}
 shapiro.test(mlann)
 shapiro.test(gissann)
 shapiro.test(mlmon)
 shapiro.test(gissmo)
 ```
 
-### Can we predict surface temperature increases </br>from anticipated carbon dioxide increases?
+
+
+
 
 ```{r echo=FALSE}
 lm1 <- lm(gissann~mlann)
-plot(mlann,gissann,main="CO2 vs. Temp Annual 1959-2017",
+plot(mlann,gissann,main="CO2 vs. Temp Annual 1959-2018",
      xlab="CO2 Annual Mauna Loa",ylab="GISS Annual Surface Temp Anomaly")
 lines(mlann,lm1$fitted,type = "l",col="red")
 ```
@@ -197,6 +211,9 @@ lines(mlann,lm1$fitted,type = "l",col="red")
 #Properties of the regression line (the red trend line above)
 summary(lm1)
 ```
+
+### Can we predict surface temperature increases </br>from anticipated carbon dioxide increases?
+
 
 ```{r}
 #Predictions for CO2 concentrations of 425 to 700, increments of 25
@@ -214,3 +231,5 @@ points(seq(425,700,25),predictions[,1],col="blue")
 lines(seq(425,700,25),predictions[,2],type="l",col="red")
 lines(seq(425,700,25),predictions[,3],type="l",col="red")
 ```
+
+
